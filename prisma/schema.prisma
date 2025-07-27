@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Bookmark {
+  id        Int      @default(autoincrement())
+  url       String   @db.VarChar(2048)
+  title     String?  @db.VarChar(512)
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+
+  embedding Unsupported("vector(768)")
+
+  @@id([id])
+  @@map("bookmarks")
+}
